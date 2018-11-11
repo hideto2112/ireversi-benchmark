@@ -44,16 +44,16 @@ module.exports = {
   judgePiece(x, y, userId) {
     // デバッグ用
     count += 1;
-    console.log(`{ count: ${count}, x: ${x}, y: ${y}, userId: ${userId} }`);
-    console.time('1st');
+    // console.log(`{ count: ${count}, x: ${x}, y: ${y}, userId: ${userId} }`);
+    // console.time('1st');
     // デバッグ用
 
     /* 1. 置こうとしている場所に既にコマが存在するか */
     if(searchPiece(pieces, x, y)){
-      console.timeEnd('1st'); // デバッグ用
+      // console.timeEnd('1st'); // デバッグ用
       return false;
     }
-    console.timeEnd('1st'); // デバッグ用
+    // console.timeEnd('1st'); // デバッグ用
 
     /* 2. 自分のコマが存在するか（存在する場合は、置こうとしているコマの8方向上か） */
     let status = false;
@@ -62,7 +62,7 @@ module.exports = {
     const dirChecker = [0, 0, 0, 0, 0, 0, 0, 0];
     let dirCheckFlg = false;
 
-    console.time('2nd'); // デバッグ用
+    // console.time('2nd'); // デバッグ用
     for (let i = 0; i < lenPieces; i += 1) {
       const piece = pieces[i];
       if (piece.userId === userId) {
@@ -113,7 +113,7 @@ module.exports = {
         }
       }
     }
-    console.timeEnd('2nd'); // デバッグ用
+    // console.timeEnd('2nd'); // デバッグ用
 
     // 隣接する枠に自コマ以外のコマが存在するか
     const adjacentChecker = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -134,7 +134,7 @@ module.exports = {
     if (myPieces.length > 0) {
       // 置こうとしているコマの8方向上に自コマがなかれば、めくれない
       if (!dirCheckFlg) return false;
-      console.time('3rd-1'); // デバッグ用
+      // console.time('3rd-1'); // デバッグ用
       for (let i = 0; i < lenDirAll; i += 1) {
         if (dirChecker[i] && adjacentChecker[i]) {
           const rslt = []; // めくる候補の格納
@@ -149,8 +149,8 @@ module.exports = {
         
           if (dirPiece) {
             if (dirPiece.userId !== userId) {
-              console.log(dirPiece);
-              console.time('3rd-1-1'); // デバッグ用
+              // console.log(dirPiece);
+              // console.time('3rd-1-1'); // デバッグ用
               while (dirPiece) {
                 if (dirPiece.userId !== userId) {
                   rslt.push(dirPiece);
@@ -160,41 +160,41 @@ module.exports = {
                   dirPiece = searchPiece(pieces, nextPieceX, nextPieceY);
                 } else if (dirPiece.userId === userId) {
                   status = true;
-                  console.time('3rd-1-1-1'); // デバッグ用
+                  // console.time('3rd-1-1-1'); // デバッグ用
                   const lenRslt = rslt.length
                   for (let j = 0; j < lenRslt; j += 1) {
                     rslt[j].userId = userId;
                   }
-                  console.time('3rd-1-1-1'); // デバッグ用
+                  // console.time('3rd-1-1-1'); // デバッグ用
                   break;
                 }
               }
-              console.timeEnd('3rd-1-1'); // デバッグ用
+              // console.timeEnd('3rd-1-1'); // デバッグ用
             }
           }
         }
       }
       if (status) {
         pieces.push({ x, y, userId });
-        console.timeEnd('3rd-1'); // デバッグ用
+        // console.timeEnd('3rd-1'); // デバッグ用
         return true;
       }
 
-      console.timeEnd('3rd-1'); // デバッグ用
+      // console.timeEnd('3rd-1'); // デバッグ用
       return false;
 
     // 自コマが存在しない場合
     } else {
-      console.time('3rd-2'); // デバッグ用
+      // console.time('3rd-2'); // デバッグ用
       // 上下左右の4方向上にコマがあれば置ける
       for (let i = 0; i < lenDirXY; i += 1) {
         if (adjacentChecker[i]) {
           pieces.push({ x, y, userId });
-          console.timeEnd('3rd-2'); // デバッグ用
+          // console.timeEnd('3rd-2'); // デバッグ用
           return true;
         }
       }
-      console.timeEnd('3rd-2'); // デバッグ用
+      // console.timeEnd('3rd-2'); // デバッグ用
       return false;
     }
   },
